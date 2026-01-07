@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App-1 – Yarn & Fabric Costing</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>App-1 – Yarn & Fabric Costing</h2>
+
+<div class="grid-two tight">
+
+  <!-- WARP -->
+  <div class="card">
+    <h3>Warp</h3>
+    <div class="green-group">
+      <label>Yarn Count</label>
+      <select id="warpCount"></select>
+
+      <label>Ply</label>
+      <input id="warpPly" type="number" inputmode="numeric" value="1">
+
+      <label>Width</label>
+      <input id="warpWidth" type="number" inputmode="numeric" value="53">
+
+      <label>Reed</label>
+      <input id="reed" type="number" inputmode="numeric">
+
+      <label>Thaan Length</label>
+      <input id="warpLength" type="number" inputmode="numeric" value="29">
+
+      <label>Yarn Length</label>
+      <input id="warpYarnLength" type="number" inputmode="numeric" value="3100">
+
+      <label>Waste (Pata)</label>
+      <input id="warpWaste" type="number" inputmode="numeric" value="0">
+
+      <div class="result">Warp Pata: <span id="warpResult">0</span></div>
+    </div>
+  </div>
+
+  <!-- WEFT -->
+  <div class="card">
+    <h3>Weft</h3>
+    <div class="green-group">
+      <label>Yarn Count</label>
+      <select id="weftCount"></select>
+
+      <label>Ply</label>
+      <input id="weftPly" type="number" inputmode="numeric" value="1">
+
+      <label>Width</label>
+      <input id="weftWidth" type="number" inputmode="numeric">
+
+      <label>Pick</label>
+      <input id="pick" type="number" inputmode="numeric">
+
+      <label>Thaan Length</label>
+      <input id="weftLength" type="number" inputmode="numeric">
+
+      <label>Yarn Length</label>
+      <input id="weftYarnLength" type="number" inputmode="numeric" value="3100">
+
+      <label>Colour / White</label>
+      <select id="fabricColour">
+        <option value="colour" selected>Colour</option>
+        <option value="white">White</option>
+      </select>
+
+      <div class="result">Weft Pata: <span id="weftResult">0</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- DYE / WAGE / OTHER -->
+<div class="card tight">
+  <div class="black-group">
+    <div class="grid-two">
+      <div>
+        <label>Dye charge / kg</label>
+        <input id="dyeCharge" type="number" inputmode="numeric" value="300">
+      </div>
+      <div>
+        <label>Dye %</label>
+        <input id="dyePercent" type="number" inputmode="numeric" value="100">
+      </div>
+    </div>
+
+    <div class="grid-two">
+      <div>
+        <label>Wage</label>
+        <input id="wage" type="number" inputmode="numeric">
+      </div>
+      <div>
+        <label>Other</label>
+        <input id="other" type="number" inputmode="numeric" value="0">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="summary tight">
+  <div>Warp ₹ <span id="warpYarnCost">0</span></div>
+  <div>Weft ₹ <span id="weftYarnCost">0</span></div>
+  <div>Dye ₹ <span id="dyeCost">0</span></div>
+  <div class="final">₹ / Mtr <span id="costResult">0</span></div>
+</div>
+
+<!-- STICKY CALCULATE -->
+<div class="sticky-bar">
+  <button class="calc-btn" onclick="calculate()">CALCULATE</button>
+</div>
+
+<!-- BUNDLE PRICES + WASH (RESTORED) -->
+<div class="card tight">
+  <div class="grid-two">
+    <div>
+      <label>Warp Bundle Price</label>
+      <input id="warpPrice" type="number" inputmode="numeric">
+    </div>
+    <div>
+      <label>Weft Bundle Price</label>
+      <input id="weftPrice" type="number" inputmode="numeric">
+    </div>
+  </div>
+
+  <label>Wash</label>
+  <input id="wash" type="number" inputmode="numeric" value="150">
+</div>
+
+<!-- YARN PRICES -->
+<div class="card tight">
+  <h3>Yarn Prices (₹ / Bundle)</h3>
+  <div id="priceWrapper" class="hidden">
+    <div id="priceList" class="grid-two"></div>
+  </div>
+  <button onclick="togglePriceEdit()" id="editPriceBtn">Set / Edit Prices</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

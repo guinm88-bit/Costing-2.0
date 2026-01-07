@@ -1,0 +1,114 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 8px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 17px;
+  margin: 4px 0 6px;
+}
+
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.tight {
+  margin-bottom: 4px;
+}
+
+h3 {
+  font-size: 13px;
+  margin: 0 0 4px;
+  border-bottom: 1px solid #ddd;
+}
+
+label {
+  font-size: 12px;
+  display: block;
+  margin-top: 2px;
+}
+
+input, select {
+  width: 100%;
+  padding: 5px;
+  font-size: 16px;
+  margin-bottom: 2px;
+  box-sizing: border-box;
+}
+
+.result {
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.calc-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  background: #1f7ae0;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 6px;
+  background: #fff;
+  border: 2px solid #1f7ae0;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.summary .final {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.green-group {
+  border: 2px solid #2e7d32;
+  border-radius: 14px;
+  padding: 6px;
+}
+
+.black-group {
+  border: 2px solid #000;
+  border-radius: 14px;
+  padding: 6px;
+}
+
+.price-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .summary {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.hidden {
+  display: none;
+}
