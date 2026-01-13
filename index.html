@@ -2,203 +2,146 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App-1 – Yarn & Fabric Costing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fabric Costing Pro</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>App-1 – Yarn & Fabric Costing</h2>
+<h2 class="main-title">Yarn & Fabric Costing</h2>
 
-<div class="grid-two tight">
-
-  <!-- WARP -->
-  <div class="card">
-    <h3>Warp</h3>
-    <div class="green-group">
-      <label>Yarn Count</label>
-      <select id="warpCount"></select>
-
-      <label>Ply</label>
-      <input id="warpPly" type="number" inputmode="numeric" value="1">
-
-      <label>Width</label>
-      <input id="warpWidth" type="number" inputmode="numeric" value="53">
-
-      <label>Reed</label>
-      <input id="reed" type="number" inputmode="numeric">
-
-      <label>Thaan Length</label>
-      <input id="warpLength" type="number" inputmode="numeric" value="29">
-
-      <label>Yarn Length</label>
-      <input id="warpYarnLength" type="number" inputmode="numeric" value="3100">
-
-      <label>Waste (Pata)</label>
-      <input id="warpWaste" type="number" inputmode="numeric" value="0">
-
-      <div class="result">Warp Pata: <span id="warpResult">0</span></div>
-    </div>
-    <div class="diff-yarn-toggle-container">
-        <label class="toggle-switch">
-            <input type="checkbox" id="enableDiffWarpYarn">
-            <span class="slider round"></span>
-        </label>
-        <span class="toggle-label">Enable Different Yarn</span>
-    </div>
-    <button class="add-diff-yarn-btn" id="addDiffWarpBtn" onclick="openDiffYarnModal('warp')" style="display: none;">Configure Different Warp Yarn</button>
-  </div>
-
-  <!-- WEFT -->
-  <div class="card">
-    <h3>Weft</h3>
-    <div class="green-group">
-      <label>Yarn Count</label>
-      <select id="weftCount"></select>
-
-      <label>Ply</label>
-      <input id="weftPly" type="number" inputmode="numeric" value="1">
-
-      <label>Width</label>
-      <input id="weftWidth" type="number" inputmode="numeric">
-
-      <label>Pick</label>
-      <input id="pick" type="number" inputmode="numeric">
-
-      <label>Thaan Length</label>
-      <input id="weftLength" type="number" inputmode="numeric">
-
-      <label>Yarn Length</label>
-      <input id="weftYarnLength" type="number" inputmode="numeric" value="3100">
-
-      <label>Colour / White</label>
-      <select id="fabricColour">
-        <option value="colour" selected>Colour</option>
-        <option value="white">White</option>
-      </select>
-
-      <div class="result">Weft Pata: <span id="weftResult">0</span></div>
-    </div>
-    <div class="diff-yarn-toggle-container">
-        <label class="toggle-switch">
-            <input type="checkbox" id="enableDiffWeftYarn">
-            <span class="slider round"></span>
-        </label>
-        <span class="toggle-label">Enable Different Yarn</span>
-    </div>
-    <button class="add-diff-yarn-btn" id="addDiffWeftBtn" onclick="openDiffYarnModal('weft')" style="display: none;">Configure Different Weft Yarn</button>
-  </div>
-
-</div>
-
-<!-- DYE / WAGE / OTHER -->
-<div class="card tight">
-  <div class="black-group">
-    <div class="grid-two">
-      <div>
-        <label>Dye charge / kg</label>
-        <input id="dyeCharge" type="number" inputmode="numeric" value="300">
-      </div>
-      <div>
-        <label>Dye %</label>
-        <input id="dyePercent" type="number" inputmode="numeric" value="100">
-      </div>
-    </div>
-
-    <div class="grid-two">
-      <div>
-        <label>Wage</label>
-        <input id="wage" type="number" inputmode="numeric">
-      </div>
-      <div>
-        <label>Other</label>
-        <input id="other" type="number" inputmode="numeric" value="0">
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- RESULTS -->
-<div class="summary tight">
-  <div>Warp ₹ <span id="warpYarnCost">0</span></div>
-  <div>Weft ₹ <span id="weftYarnCost">0</span></div>
-  <div>Different Yarn ₹ <span id="diffYarnCost">0</span></div>
-  <div>Dye ₹ <span id="dyeCost">0</span></div>
-  <div class="final">₹ / Mtr <span id="costResult">0</span></div>
-</div>
-
-<!-- STICKY CALCULATE -->
-<div class="sticky-bar">
-  <button class="calc-btn" onclick="calculate()">CALCULATE</button>
-</div>
-
-<!-- BUNDLE PRICES + WASH (RESTORED) -->
-<div class="card tight">
+<div class="main-container">
   <div class="grid-two">
-    <div>
-      <label>Warp Bundle Price</label>
-      <input id="warpPrice" type="number" inputmode="numeric">
+    <!-- WARP CARD -->
+    <div class="card">
+      <div class="card-header">Warp</div>
+      <div class="inner-group green">
+        <div class="input-row">
+          <div><label>Count</label><select id="warpCount"></select></div>
+          <div><label>Ply</label><input id="warpPly" type="number" value="1"></div>
+        </div>
+        <div class="input-row">
+          <div><label>Width</label><input id="warpWidth" type="number" value="53"></div>
+          <div><label>Reed</label><input id="reed" type="number"></div>
+        </div>
+        <div class="input-row">
+          <div><label>Thaan</label><input id="warpLength" type="number" value="29"></div>
+          <div><label>Yarn L</label><input id="warpYarnLength" type="number" value="3100"></div>
+        </div>
+        <label>Waste (Pata)</label><input id="warpWaste" type="number" value="0">
+        <div class="pata-review">
+          Base: <span id="warpResult">0</span> | <span class="blue-text">Str: <span id="warpDiffResult">0</span></span>
+        </div>
+      </div>
+      <div class="toggle-area">
+        <label class="toggle"><input type="checkbox" id="enableDiffWarpYarn"><span></span></label>
+        <button class="small-btn" id="addDiffWarpBtn" onclick="openDiffYarnModal('warp')" style="display:none">Stripe Config</button>
+      </div>
     </div>
-    <div>
-      <label>Weft Bundle Price</label>
-      <input id="weftPrice" type="number" inputmode="numeric">
+
+    <!-- WEFT CARD -->
+    <div class="card">
+      <div class="card-header">Weft</div>
+      <div class="inner-group green">
+        <div class="input-row">
+          <div><label>Count</label><select id="weftCount"></select></div>
+          <div><label>Ply</label><input id="weftPly" type="number" value="1"></div>
+        </div>
+        <div class="input-row">
+          <div><label>Width</label><input id="weftWidth" type="number"></div>
+          <div><label>Pick</label><input id="pick" type="number"></div>
+        </div>
+        <div class="input-row">
+          <div><label>Thaan</label><input id="weftLength" type="number"></div>
+          <div><label>Color</label>
+            <select id="fabricColour">
+              <option value="colour">Col</option>
+              <option value="white">Whi</option>
+            </select>
+          </div>
+        </div>
+        <label>Yarn Length</label><input id="weftYarnLength" type="number" value="3100">
+        <div class="pata-review">
+          Base: <span id="weftResult">0</span> | <span class="blue-text">Str: <span id="weftDiffResult">0</span></span>
+        </div>
+      </div>
+      <div class="toggle-area">
+        <label class="toggle"><input type="checkbox" id="enableDiffWeftYarn"><span></span></label>
+        <button class="small-btn" id="addDiffWeftBtn" onclick="openDiffYarnModal('weft')" style="display:none">Stripe Config</button>
+      </div>
     </div>
   </div>
 
-  <label>Wash</label>
-  <input id="wash" type="number" inputmode="numeric" value="150">
-</div>
-
-<!-- YARN PRICES -->
-<div class="card tight">
-  <h3>Yarn Prices (₹ / Bundle)</h3>
-  <div id="priceWrapper" class="hidden">
-    <div id="priceList" class="grid-two"></div>
+  <!-- PROCESS CARD -->
+  <div class="card full-width">
+    <div class="inner-group gray">
+      <div class="input-row">
+        <div><label>Dye/kg</label><input id="dyeCharge" type="number" value="300"></div>
+        <div><label>Dye %</label><input id="dyePercent" type="number" value="100"></div>
+        <div><label>Wage</label><input id="wage" type="number"></div>
+        <div><label>Other</label><input id="other" type="number" value="0"></div>
+      </div>
+    </div>
   </div>
-  <button onclick="togglePriceEdit()" id="editPriceBtn">Set / Edit Prices</button>
+
+  <!-- SUMMARY -->
+  <div class="summary">
+    <div class="cost-breakdown">
+      <span>W:<b id="warpYarnCost">0</b></span>
+      <span>f:<b id="weftYarnCost">0</b></span>
+      <span>D:<b id="diffYarnCost">0</b></span>
+      <span>Y:<b id="dyeCost">0</b></span>
+    </div>
+    <div class="final-cost">₹/Mtr <span id="costResult">0</span></div>
+  </div>
+
+  <!-- PRICE SETTINGS -->
+  <div class="card full-width">
+    <div class="input-row">
+      <div><label>Warp Price</label><input id="warpPrice" type="number"></div>
+      <div><label>Weft Price</label><input id="weftPrice" type="number"></div>
+      <div><label>Wash</label><input id="wash" type="number" value="150"></div>
+    </div>
+    <div id="priceWrapper" class="hidden">
+      <div id="priceList" class="price-grid"></div>
+    </div>
+    <button onclick="togglePriceEdit()" id="editPriceBtn" class="action-btn gray">Set Yarn Prices</button>
+  </div>
 </div>
 
+<div class="sticky-footer"><button class="calc-btn" onclick="calculate()">CALCULATE</button></div>
 
-<!-- DIFFERENT YARN POP-UP MODAL -->
+<!-- MODAL FOR STRIPING -->
 <div id="diffYarnModal" class="modal">
   <div class="modal-content">
-    <span class="close-button" onclick="closeDiffYarnModal()">&times;</span>
-    <h3>Add Different Yarn (<span id="diffYarnType"></span>)</h3>
-    <div class="modal-group">
-      <label>Yarn Count</label>
-      <select id="diffYarnCount"></select>
-
-      <label>Ply</label>
-      <input id="diffYarnPly" type="number" inputmode="numeric" value="1">
-
-      <label>Proportion (Base : Different)</label>
-      <div class="grid-two-small">
-        <input id="diffYarnPropBase" type="number" inputmode="numeric" value="9">
-        <input id="diffYarnPropDiff" type="number" inputmode="numeric" value="1">
+    <span class="close" onclick="closeDiffYarnModal()">&times;</span>
+    <h3>Stripe Configuration (<span id="diffYarnType"></span>)</h3>
+    <div class="inner-group green">
+      <label>Yarn Count</label><select id="diffYarnCount"></select>
+      <div class="input-row">
+        <div><label>Ply</label><input id="diffYarnPly" type="number" value="1"></div>
+        <div><label>Yarn Length</label><input id="diffYarnLength" type="number" value="3100"></div>
       </div>
-
-      <label>Different Yarn Length</label>
-      <input id="diffYarnLength" type="number" inputmode="numeric" value="3100">
-
-      <label>Colour / White</label>
-      <select id="diffYarnColour">
-        <option value="colour" selected>Colour</option>
-        <option value="white">White</option>
-      </select>
-
-      <label>Dye charge / kg</label>
-      <input id="diffYarnDyeCharge" type="number" inputmode="numeric" value="300">
-
-      <div class="result">Calculated Pata: <span id="diffYarnCalcPata">0</span></div>
-      <div class="result">Amount (Review): <span id="diffYarnCalcAmount">0</span></div>
-      <label>Different Yarn Bundle Price</label>
-      <input id="diffYarnBundlePrice" type="number" inputmode="numeric" value="0">
-      <div class="result">Dyeing Cost (Review): <span id="diffYarnCalcDyeCost">0</span></div>
+      <label>Proportion (Base : Stripe)</label>
+      <div class="input-row">
+        <input id="diffYarnPropBase" type="number" value="9">
+        <input id="diffYarnPropDiff" type="number" value="1">
+      </div>
+      <div class="input-row">
+        <div>
+          <label>Colour/White</label>
+          <select id="diffYarnColour">
+            <option value="colour">Colour</option>
+            <option value="white">White</option>
+          </select>
+        </div>
+        <div><label>Dye Charge/kg</label><input id="diffYarnDyeCharge" type="number" value="300"></div>
+      </div>
+      <label>Bundle Price</label><input id="diffYarnBundlePrice" type="number">
     </div>
-    <button onclick="saveDiffYarnSettings()" class="modal-save-btn">OK</button>
+    <button onclick="saveDiffYarnSettings()" class="calc-btn" style="width:100%; margin-top:15px;">SAVE CONFIG</button>
   </div>
 </div>
-
 
 <script src="app.js"></script>
 </body>
