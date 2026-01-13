@@ -39,6 +39,14 @@
 
       <div class="result">Warp Pata: <span id="warpResult">0</span></div>
     </div>
+    <div class="diff-yarn-toggle-container">
+        <label class="toggle-switch">
+            <input type="checkbox" id="enableDiffWarpYarn">
+            <span class="slider round"></span>
+        </label>
+        <span class="toggle-label">Enable Different Yarn</span>
+    </div>
+    <button class="add-diff-yarn-btn" id="addDiffWarpBtn" onclick="openDiffYarnModal('warp')" style="display: none;">Configure Different Warp Yarn</button>
   </div>
 
   <!-- WEFT -->
@@ -71,6 +79,14 @@
 
       <div class="result">Weft Pata: <span id="weftResult">0</span></div>
     </div>
+    <div class="diff-yarn-toggle-container">
+        <label class="toggle-switch">
+            <input type="checkbox" id="enableDiffWeftYarn">
+            <span class="slider round"></span>
+        </label>
+        <span class="toggle-label">Enable Different Yarn</span>
+    </div>
+    <button class="add-diff-yarn-btn" id="addDiffWeftBtn" onclick="openDiffYarnModal('weft')" style="display: none;">Configure Different Weft Yarn</button>
   </div>
 
 </div>
@@ -106,6 +122,7 @@
 <div class="summary tight">
   <div>Warp ₹ <span id="warpYarnCost">0</span></div>
   <div>Weft ₹ <span id="weftYarnCost">0</span></div>
+  <div>Different Yarn ₹ <span id="diffYarnCost">0</span></div>
   <div>Dye ₹ <span id="dyeCost">0</span></div>
   <div class="final">₹ / Mtr <span id="costResult">0</span></div>
 </div>
@@ -140,6 +157,48 @@
   </div>
   <button onclick="togglePriceEdit()" id="editPriceBtn">Set / Edit Prices</button>
 </div>
+
+
+<!-- DIFFERENT YARN POP-UP MODAL -->
+<div id="diffYarnModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" onclick="closeDiffYarnModal()">&times;</span>
+    <h3>Add Different Yarn (<span id="diffYarnType"></span>)</h3>
+    <div class="modal-group">
+      <label>Yarn Count</label>
+      <select id="diffYarnCount"></select>
+
+      <label>Ply</label>
+      <input id="diffYarnPly" type="number" inputmode="numeric" value="1">
+
+      <label>Proportion (Base : Different)</label>
+      <div class="grid-two-small">
+        <input id="diffYarnPropBase" type="number" inputmode="numeric" value="9">
+        <input id="diffYarnPropDiff" type="number" inputmode="numeric" value="1">
+      </div>
+
+      <label>Different Yarn Length</label>
+      <input id="diffYarnLength" type="number" inputmode="numeric" value="3100">
+
+      <label>Colour / White</label>
+      <select id="diffYarnColour">
+        <option value="colour" selected>Colour</option>
+        <option value="white">White</option>
+      </select>
+
+      <label>Dye charge / kg</label>
+      <input id="diffYarnDyeCharge" type="number" inputmode="numeric" value="300">
+
+      <div class="result">Calculated Pata: <span id="diffYarnCalcPata">0</span></div>
+      <div class="result">Amount (Review): <span id="diffYarnCalcAmount">0</span></div>
+      <label>Different Yarn Bundle Price</label>
+      <input id="diffYarnBundlePrice" type="number" inputmode="numeric" value="0">
+      <div class="result">Dyeing Cost (Review): <span id="diffYarnCalcDyeCost">0</span></div>
+    </div>
+    <button onclick="saveDiffYarnSettings()" class="modal-save-btn">OK</button>
+  </div>
+</div>
+
 
 <script src="app.js"></script>
 </body>
