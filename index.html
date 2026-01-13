@@ -18,17 +18,17 @@
       <div class="inner-group green">
         <div class="input-row">
           <div><label>Count</label><select id="warpCount"></select></div>
-          <div><label>Ply</label><input id="warpPly" type="number" value="1"></div>
+          <div><label>Ply</label><input id="warpPly" type="number" inputmode="decimal" value="1"></div>
         </div>
         <div class="input-row">
-          <div><label>Width</label><input id="warpWidth" type="number" value="53"></div>
-          <div><label>Reed</label><input id="reed" type="number"></div>
+          <div><label>Width</label><input id="warpWidth" type="number" inputmode="decimal" value="53"></div>
+          <div><label>Reed</label><input id="reed" type="number" inputmode="decimal"></div>
         </div>
         <div class="input-row">
-          <div><label>Thaan</label><input id="warpLength" type="number" value="29"></div>
-          <div><label>Yarn L</label><input id="warpYarnLength" type="number" value="3100"></div>
+          <div><label>Thaan</label><input id="warpLength" type="number" inputmode="decimal" value="29"></div>
+          <div><label>Yarn L</label><input id="warpYarnLength" type="number" inputmode="decimal" value="3100"></div>
         </div>
-        <label>Waste (Pata)</label><input id="warpWaste" type="number" value="0">
+        <label>Waste (Pata)</label><input id="warpWaste" type="number" inputmode="decimal" value="0">
         <div class="pata-review">
           Base: <span id="warpResult">0</span> | <span class="blue-text">Str: <span id="warpDiffResult">0</span></span>
         </div>
@@ -45,22 +45,26 @@
       <div class="inner-group green">
         <div class="input-row">
           <div><label>Count</label><select id="weftCount"></select></div>
-          <div><label>Ply</label><input id="weftPly" type="number" value="1"></div>
+          <div><label>Ply</label><input id="weftPly" type="number" inputmode="decimal" value="1"></div>
         </div>
         <div class="input-row">
-          <div><label>Width</label><input id="weftWidth" type="number"></div>
-          <div><label>Pick</label><input id="pick" type="number"></div>
+          <div><label>Width</label><input id="weftWidth" type="number" inputmode="decimal"></div>
+          <div><label>Pick</label><input id="pick" type="number" inputmode="decimal"></div>
+        </div>
+        <!-- UPDATED ROW ORDER: Yarn Length moved up, Color moved down -->
+        <div class="input-row">
+            <div><label>Thaan</label><input id="weftLength" type="number" inputmode="decimal"></div>
+            <div><label>Yarn Length</label><input id="weftYarnLength" type="number" inputmode="decimal" value="3100"></div>
         </div>
         <div class="input-row">
-          <div><label>Thaan</label><input id="weftLength" type="number"></div>
-          <div><label>Color</label>
-            <select id="fabricColour">
-              <option value="colour">Col</option>
-              <option value="white">Whi</option>
-            </select>
-          </div>
+            <div><label>Color</label>
+                <select id="fabricColour">
+                  <option value="colour">Col</option>
+                  <option value="white">Whi</option>
+                </select>
+            </div>
         </div>
-        <label>Yarn Length</label><input id="weftYarnLength" type="number" value="3100">
+        
         <div class="pata-review">
           Base: <span id="weftResult">0</span> | <span class="blue-text">Str: <span id="weftDiffResult">0</span></span>
         </div>
@@ -76,31 +80,34 @@
   <div class="card full-width">
     <div class="inner-group gray">
       <div class="input-row">
-        <div><label>Dye/kg</label><input id="dyeCharge" type="number" value="300"></div>
-        <div><label>Dye %</label><input id="dyePercent" type="number" value="100"></div>
-        <div><label>Wage</label><input id="wage" type="number"></div>
-        <div><label>Other</label><input id="other" type="number" value="0"></div>
+        <div><label>Dye/kg</label><input id="dyeCharge" type="number" inputmode="decimal" value="300"></div>
+        <div><label>Dye %</label><input id="dyePercent" type="number" inputmode="decimal" value="100"></div>
+        <div><label>Wage</label><input id="wage" type="number" inputmode="decimal"></div>
+        <div><label>Other</label><input id="other" type="number" inputmode="decimal" value="0"></div>
       </div>
     </div>
   </div>
 
-  <!-- SUMMARY -->
+  <!-- SUMMARY WITH FULL NAMES -->
   <div class="summary">
     <div class="cost-breakdown">
-      <span>W:<b id="warpYarnCost">0</b></span>
-      <span>f:<b id="weftYarnCost">0</b></span>
-      <span>D:<b id="diffYarnCost">0</b></span>
-      <span>Y:<b id="dyeCost">0</b></span>
+      <span>Warp:<b id="warpYarnCost">0</b></span>
+      <span>Weft:<b id="weftYarnCost">0</b></span>
+      <span>Diff:<b id="diffYarnCost">0</b></span>
+      <span>Dyeing:<b id="dyeCost">0</b></span>
     </div>
-    <div class="final-cost">₹/Mtr <span id="costResult">0</span></div>
+    <div class="final-row">
+        <div class="total-amt">Total: ₹<span id="totalAmt">0</span></div>
+        <div class="final-cost">₹/Mtr <span id="costResult">0</span></div>
+    </div>
   </div>
 
   <!-- PRICE SETTINGS -->
   <div class="card full-width">
     <div class="input-row">
-      <div><label>Warp Price</label><input id="warpPrice" type="number"></div>
-      <div><label>Weft Price</label><input id="weftPrice" type="number"></div>
-      <div><label>Wash</label><input id="wash" type="number" value="150"></div>
+      <div><label>Warp Price</label><input id="warpPrice" type="number" inputmode="decimal"></div>
+      <div><label>Weft Price</label><input id="weftPrice" type="number" inputmode="decimal"></div>
+      <div><label>Wash</label><input id="wash" type="number" inputmode="decimal" value="150"></div>
     </div>
     <div id="priceWrapper" class="hidden">
       <div id="priceList" class="price-grid"></div>
@@ -119,13 +126,13 @@
     <div class="inner-group green">
       <label>Yarn Count</label><select id="diffYarnCount"></select>
       <div class="input-row">
-        <div><label>Ply</label><input id="diffYarnPly" type="number" value="1"></div>
-        <div><label>Yarn Length</label><input id="diffYarnLength" type="number" value="3100"></div>
+        <div><label>Ply</label><input id="diffYarnPly" type="number" inputmode="decimal" value="1"></div>
+        <div><label>Yarn Length</label><input id="diffYarnLength" type="number" inputmode="decimal" value="3100"></div>
       </div>
       <label>Proportion (Base : Stripe)</label>
       <div class="input-row">
-        <input id="diffYarnPropBase" type="number" value="9">
-        <input id="diffYarnPropDiff" type="number" value="1">
+        <input id="diffYarnPropBase" type="number" inputmode="decimal" value="9">
+        <input id="diffYarnPropDiff" type="number" inputmode="decimal" value="1">
       </div>
       <div class="input-row">
         <div>
@@ -135,9 +142,9 @@
             <option value="white">White</option>
           </select>
         </div>
-        <div><label>Dye Charge/kg</label><input id="diffYarnDyeCharge" type="number" value="300"></div>
+        <div><label>Dye Charge/kg</label><input id="diffYarnDyeCharge" type="number" inputmode="decimal" value="300"></div>
       </div>
-      <label>Bundle Price</label><input id="diffYarnBundlePrice" type="number">
+      <label>Bundle Price</label><input id="diffYarnBundlePrice" type="number" inputmode="decimal">
     </div>
     <button onclick="saveDiffYarnSettings()" class="calc-btn" style="width:100%; margin-top:15px;">SAVE CONFIG</button>
   </div>

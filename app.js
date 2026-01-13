@@ -1,9 +1,9 @@
-const YARN_COUNTS = ["6s","10s","14s","17s","26s","32s","40s","60s","84s","100s","2/17s","2/40s","2/60s","2/80s","33s","56K","100K"];
-const REED_MAP = {"6s":28,"10s":36,"14s":42,"17s":48,"26s":52,"32s":56,"40s":64,"60s":72,"84s":84,"100s":96,"2/17s":32,"2/40s":48,"2/60s":52,"2/80s":64,"33s":48,"56K":56,"100K":72};
+const YARN_COUNTS = ["6s","10s","14s","17s","26s","32s","40s","60s","84s","100s","2/17s","2/40s","2/60s","2/80s","33K","56K","100K"];
+const REED_MAP = {"6s":28,"10s":36,"14s":42,"17s":48,"26s":52,"32s":56,"40s":64,"60s":72,"84s":84,"100s":96,"2/17s":32,"2/40s":48,"2/60s":52,"2/80s":64,"33K":48,"56K":56,"100K":72};
 
 let yarnPrices = JSON.parse(localStorage.getItem("yarnPrices")) || {};
-let diffWarpSettings = JSON.parse(localStorage.getItem("diffWarpSettings")) || null;
-let diffWeftSettings = JSON.parse(localStorage.getItem("diffWeftSettings")) || null;
+let diffWarpSettings = null; // Default to null for fresh sessions
+let diffWeftSettings = null; // Default to null for fresh sessions
 let editMode = false;
 let activeModalType = null;
 
@@ -11,17 +11,31 @@ window.onload = () => {
     populateDropdowns();
     initToggles();
     
-    // Set Default Weft Width and Length based on Warp
+    // Default values
     document.getElementById("weftWidth").value = Number(document.getElementById("warpWidth").value) - 2;
     document.getElementById("weftLength").value = Number(document.getElementById("warpLength").value) - 2;
 
-    // Listeners for auto-fill logic
+    // Listeners for auto-fill width/length
     document.getElementById("warpWidth").oninput = (e) => {
         document.getElementById("weftWidth").value = Number(e.target.value) - 2;
         calculate();
     };
     document.getElementById("warpLength").oninput = (e) => {
         document.getElementById("weftLength").value = Number(e.target.value) - 2;
+        calculate();
+    };
+
+    // Dyeing auto-fill logic
+    document.getElementById("fabricColour").onchange = (e) => {
+        const dyeCharge = document.getElementById("dyeCharge");
+        const dyePercent = document.getElementById("dyePercent");
+        if (e.target.value === "white") {
+            dyeCharge.value = 0;
+            dyePercent.value = 0;
+        } else {
+            dyeCharge.value = 300;
+            dyePercent.value = 100;
+        }
         calculate();
     };
 
@@ -41,9 +55,8 @@ function initToggles() {
     ["Warp", "Weft"].forEach(type => {
         const toggle = document.getElementById(`enableDiff${type}Yarn`);
         const btn = document.getElementById(`addDiff${type}Btn`);
-        const hasSettings = type === "Warp" ? diffWarpSettings : diffWeftSettings;
-        toggle.checked = !!hasSettings;
-        btn.style.display = toggle.checked ? 'block' : 'none';
+        toggle.checked = false; // Always OFF by default as requested
+        btn.style.display = 'none';
         toggle.onchange = (e) => {
             btn.style.display = e.target.checked ? 'block' : 'none';
             if(!e.target.checked) type === "Warp" ? diffWarpSettings = null : diffWeftSettings = null;
@@ -64,7 +77,7 @@ function renderPriceGrid() {
     const list = document.getElementById("priceList");
     list.innerHTML = "";
     YARN_COUNTS.forEach(c => {
-        list.innerHTML += `<div><label>${c}</label><input type="number" value="${yarnPrices[c] || 0}" ${editMode ? "" : "readonly"} oninput="yarnPrices['${c}']=Number(this.value)"></div>`;
+        list.innerHTML += `<div><label>${c}</label><input type="number" inputmode="decimal" value="${yarnPrices[c] || 0}" ${editMode ? "" : "readonly"} oninput="yarnPrices['${c}']=Number(this.value)"></div>`;
     });
 }
 
@@ -74,12 +87,13 @@ function autofillPrices() {
 }
 
 const getEffCount = (l) => {
-    let b = (l === "100K") ? 50 : (l === "56K") ? 28 : (l === "33s") ? 16.5 : Number(l.replace("2/", "").replace("s", ""));
+    // 33K is now treated like other K counts (Value/2)
+    let b = (l === "100K") ? 50 : (l === "56K") ? 28 : (l === "33K") ? 16.5 : Number(l.replace("2/", "").replace("s", ""));
     return (l.startsWith("2/") || b === 84 || b === 100) ? b / 2 : b;
 };
 
 const getBund = (l) => {
-    let b = (l === "100K") ? 50 : (l === "56K") ? 28 : (l === "33s") ? 16.5 : Number(l.replace("2/", "").replace("s", ""));
+    let b = (l === "100K") ? 50 : (l === "56K") ? 28 : (l === "33K") ? 16.5 : Number(l.replace("2/", "").replace("s", ""));
     return (b === 84 || b === 100) ? 10 : 5;
 };
 
@@ -88,7 +102,7 @@ function calculate() {
     const weftC = document.getElementById("weftCount").value;
     const res = { warpPata: 0, weftPata: 0, dWpata: 0, dWfpata: 0, wCost: 0, fCost: 0, dCost: 0, yCost: 0 };
 
-    // Warp Logic
+    // Warp Calculation
     let totalWThreads = Number(document.getElementById("warpWidth").value) * Number(document.getElementById("reed").value) * Number(document.getElementById("warpPly").value);
     if (document.getElementById("enableDiffWarpYarn").checked && diffWarpSettings) {
         let dThreads = totalWThreads * (diffWarpSettings.propDiff / (diffWarpSettings.propBase + diffWarpSettings.propDiff));
@@ -100,7 +114,7 @@ function calculate() {
     res.warpPata = (totalWThreads * Number(document.getElementById("warpLength").value)) / Number(document.getElementById("warpYarnLength").value) + Number(document.getElementById("warpWaste").value);
     res.wCost = res.warpPata * (Number(document.getElementById("warpPrice").value) / getEffCount(warpC) / getBund(warpC));
 
-    // Weft Logic
+    // Weft Calculation
     let totalFThreads = Number(document.getElementById("weftWidth").value) * Number(document.getElementById("pick").value) * Number(document.getElementById("weftPly").value);
     if (document.getElementById("enableDiffWeftYarn").checked && diffWeftSettings) {
         let dThreads = totalFThreads * (diffWeftSettings.propDiff / (diffWeftSettings.propBase + diffWeftSettings.propDiff));
@@ -112,11 +126,11 @@ function calculate() {
     res.weftPata = (totalFThreads * Number(document.getElementById("weftLength").value)) / Number(document.getElementById("weftYarnLength").value);
     res.fCost = res.weftPata * (Number(document.getElementById("weftPrice").value) / getEffCount(weftC) / getBund(weftC));
 
-    // Dyeing
+    // Base Dyeing Cost
     let dyeBase = (4600/getEffCount(warpC)/getBund(warpC)*res.warpPata + 4600/getEffCount(weftC)/getBund(weftC)*res.weftPata)/1000 * (Number(document.getElementById("dyePercent").value)/100) * Number(document.getElementById("dyeCharge").value);
     res.yCost += dyeBase;
 
-    // UI Output
+    // Display Results
     document.getElementById("warpResult").textContent = res.warpPata.toFixed(2);
     document.getElementById("warpDiffResult").textContent = res.dWpata.toFixed(2);
     document.getElementById("weftResult").textContent = res.weftPata.toFixed(2);
@@ -127,6 +141,8 @@ function calculate() {
     document.getElementById("dyeCost").textContent = res.yCost.toFixed(0);
     
     let total = res.wCost + res.fCost + res.dCost + res.yCost + Number(document.getElementById("wage").value) + Number(document.getElementById("wash").value) + Number(document.getElementById("other").value);
+    
+    document.getElementById("totalAmt").textContent = total.toFixed(0);
     document.getElementById("costResult").textContent = (total / 12).toFixed(2);
 }
 
@@ -160,7 +176,6 @@ function saveDiffYarnSettings() {
         bundlePrice: Number(document.getElementById("diffYarnBundlePrice").value)
     };
     activeModalType === 'warp' ? diffWarpSettings = s : diffWeftSettings = s;
-    localStorage.setItem(activeModalType === 'warp' ? "diffWarpSettings" : "diffWeftSettings", JSON.stringify(s));
     closeDiffYarnModal();
     calculate();
 }
@@ -172,5 +187,16 @@ document.getElementById("warpCount").onchange = () => {
     document.getElementById("reed").value = REED_MAP[v] || 0;
     document.getElementById("pick").value = REED_MAP[v] || 0;
     document.getElementById("weftCount").value = v;
-    autofillPrices(); calculate();
+    autofillPrices(); 
+    calculate();
 };
+
+document.getElementById("weftCount").onchange = () => {
+    autofillPrices();
+    calculate();
+};
+
+// Standard input listener for recalculation
+document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', calculate);
+});
